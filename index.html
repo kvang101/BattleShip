@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Player Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Welcome to the Two-Player Game!</h1>
+    <div id="game"></div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- Add Firebase SDK to your `index.html` -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  var firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // Create reference to the database
+  var database = firebase.database();
+
+  // Example: Update player's move in the database
+  function makeMove(player, move) {
+    database.ref('game/').set({
+      player: player,
+      move: move
+    });
+  }
+
+  // Example: Listen for updates from the database
+  database.ref('game/').on('value', (snapshot) => {
+    const data = snapshot.val();
+    console.log("Player " + data.player + " made move: " + data.move);
+  });
+</script>
